@@ -1,0 +1,49 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as mtp
+
+#load data
+data= pd.read_csv("C:\\Users\\ASUS\\Downloads\\Compressed\\salary_data.csv")
+
+#show data
+data.head()
+
+#to do some calculations like min, mean
+data.describe()
+
+# x-split dataset
+x= data.iloc[:, :-1].values
+x
+
+#y- split dataset
+y= data.iloc[:, 1].values 
+y
+
+#split the data into training set and test set
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=1/3, random_state=0)
+y_train
+
+#fitting training set to the model
+from sklearn.linear_model import LinearRegression
+regressor=LinearRegression()
+regressor.fit(x_train,y_train)
+
+#Prediction of the test set
+y_pred=regressor.predict(x_test)
+y_pred
+
+#Prediction of the training set
+x_pred=regressor.predict(x_train)
+print(x_pred)
+
+mtp.scatter(x_train, y_train, color="green")   
+mtp.plot(x_train, x_pred, color="red")    
+mtp.title("Salary vs Experience (Training Dataset)")  
+mtp.xlabel("Years of Experience")  
+mtp.ylabel("Salary(UGX)")  
+mtp.show() 
+
+predictions= pd.DataFrame(y_pred, columns =['predicted']).to_csv('C:\\Users\\ASUS\\Downloads\\Compressed\\salary_pred.csv')
+
+predictions
